@@ -101,6 +101,9 @@ export default function Home() {
       telefone,
       email,
     };
+
+    toast.success("Informações atualizadas com sucesso!");
+    cleanState();
     console.log(newInfo);
   };
 
@@ -208,7 +211,7 @@ export default function Home() {
           </div>
           <div className="buttonContainer">
             <button onClick={() => setModal(true)}>Editar</button>
-            <button>Confirmar</button>
+            <button onClick={() => sendInfo()}>Confirmar</button>
           </div>
         </div>
       ) : (
