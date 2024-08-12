@@ -23,6 +23,18 @@ export default function Home() {
       if (!res.ok) throw new Error("Failed to fetch data");
 
       const data = await res.json();
+
+      let socios = [];
+      if (data.qsa) {
+        for (const item of data.qsa) {
+          socios.push({
+            nome: item.nome_socio,
+            qualificacao: item.qualificacao_socio,
+            faixaEtaria: item.faixa_etaria,
+          });
+        }
+      }
+
       setInfo({
         nome: data.nome_fantasia,
         razaoSocial: data.razao_social,
@@ -39,7 +51,9 @@ export default function Home() {
         uf: data.uf,
         telefone: data.ddd_telefone_1,
         email: data.email,
+        socios,
       });
+
       setCheckedCnpj(
         data.cnpj.replace(
           /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
@@ -87,7 +101,11 @@ export default function Home() {
             className="formInput"
             onChange={(e) => setCnpj(e.target.value)}
           />
-          <button className="consultButton" disabled={!cnpj} onClick={() => getCnpj()}>
+          <button
+            className="consultButton"
+            disabled={!cnpj}
+            onClick={() => getCnpj()}
+          >
             Consulta
           </button>
         </div>
@@ -97,7 +115,12 @@ export default function Home() {
           <div className="viewItem">
             <h3 className="cnpjChecked">CNPJ: {checkedCnpj}</h3>
           </div>
-          <h2 className="title">Informações Gerais</h2>
+          <div className="sessionTitle">
+            <h2>Informações Gerais</h2>
+            <button className="editButton" onClick={() => openModal()}>
+              Editar
+            </button>
+          </div>
           <div className="viewContainer">
             <div className="viewItem">
               <p>
@@ -135,7 +158,12 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <h2 className="title">Endereço</h2>
+          <div className="sessionTitle">
+            <h2 className="title">Endereço</h2>
+            <button className="editButton" onClick={() => openModal()}>
+              Editar
+            </button>
+          </div>
           <div className="viewContainer">
             <div className="viewItem">
               <p>
@@ -178,10 +206,35 @@ export default function Home() {
               </p>
             </div>
           </div>
+          {info.socios && (
+            <>
+              <div className="sessionTitle">
+                <h2 className="title">Sócios</h2>
+              </div>
+              <div className="partnerContainer">
+                {info.socios.map((item) => (
+                  <div className="partnerItem">
+                    <div className="viewItem">
+                      <p>
+                        <strong>Nome:</strong> {item.nome}
+                      </p>
+                    </div>
+                    <div className="viewItem">
+                      <p>
+                        <strong>Qualificação:</strong> {item.qualificacao}
+                      </p>
+                    </div>
+                    <div className="viewItem">
+                      <p>
+                        <strong>Faixa etária:</strong> {item.faixaEtaria}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
           <div className="buttonContainer">
-            <button className="editButton" onClick={() => openModal()}>
-              Editar
-            </button>
             <button onClick={() => sendInfo()}>Confirmar</button>
           </div>
         </div>
