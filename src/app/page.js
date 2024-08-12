@@ -80,7 +80,9 @@ export default function Home() {
             className="formInput"
             onChange={(e) => setCnpj(e.target.value)}
           />
-          <button className="consultButton" onClick={() => getCnpj()}>Consulta</button>
+          <button className="consultButton" onClick={() => getCnpj()}>
+            Consulta
+          </button>
         </div>
       </div>
       {razaoSocial ? (
@@ -177,12 +179,12 @@ export default function Home() {
       ) : (
         <></>
       )}
-      {modalOpen && <div className="blockContainer"/>}
+      {modalOpen && <div className="blockContainer" />}
       {modalOpen && (
         <div className="modalContainer">
-          <h1>Edição</h1>
-          <h2>Informações Gerais</h2>
-          <div className="generalInfo">
+          <h1 className="modalSectionTitle">Edição</h1>
+          <h2 className="modalSectionTitle">Informações Gerais</h2>
+          <div className="modalInputsContainer">
             <div className="formGroup">
               <label className="formLabel">Nome</label>
               <input
@@ -224,8 +226,6 @@ export default function Home() {
                 onChange={(e) => setAtividadePrincipal(e.target.value)}
               />
             </div>
-          </div>
-          <div className="contactInfo">
             <div className="formGroup">
               <label className="formLabel">Telefone</label>
               <input
@@ -243,8 +243,9 @@ export default function Home() {
               />
             </div>
           </div>
-          <h2 className="">Endereço</h2>
-          <div className="addressContainer">
+
+          <h2 className="modalSectionTitle">Endereço</h2>
+          <div className="modalInputsContainer">
             <div className="formGroup">
               <label className="formLabel">Tipo</label>
               <input
@@ -310,7 +311,9 @@ export default function Home() {
               />
             </div>
           </div>
-          <button className="saveButton" onClick={() => setModal(false)}>Salvar</button>
+          <button className="saveButton" onClick={() => setModal(false)}>
+            Salvar
+          </button>
         </div>
       )}
       {/* <button onClick={() => setModal(true)}>Consulta</button> */}

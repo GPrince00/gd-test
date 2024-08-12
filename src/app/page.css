@@ -3,6 +3,8 @@
   flex-direction: column;
   padding: 1rem 0 1rem;
   height: 100%;
+  margin: auto;
+  max-width: 60rem;
 }
 
 .checkContainer {
@@ -81,6 +83,7 @@ button {
 .modalContainer {
   position: absolute;
   width: 90vw;
+  max-width: 60rem;
   background-color: #084f43;
   padding: 1rem;
   align-self: center;
@@ -122,7 +125,25 @@ button {
   .viewContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-auto-columns: 100px;
-    flex-wrap: wrap;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .blockContainer {
+    height: 115%;
+  }
+  .modalContainer {
+    padding: 2rem 1rem;
+  }
+  .modalInputsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .formInput, .formLabel {
+    margin: 0 0.5rem;
+  }
+  .modalSectionTitle {
+    margin-left: 0.5rem;
   }
 }
