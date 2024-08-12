@@ -217,8 +217,8 @@ export default function Home() {
                 <h2 className="title">Sócios</h2>
               </div>
               <div className="partnerContainer">
-                {info.socios.map((item) => (
-                  <div className="partnerItem">
+                {info.socios.map((item, index) => (
+                  <div className="partnerItem" key={index}>
                     <div className="viewItem">
                       <p>
                         <strong>Nome:</strong> {item.nome}
