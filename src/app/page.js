@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import "./page.css";
 
 export default function Home() {
@@ -23,13 +24,15 @@ export default function Home() {
   const [modalOpen, setModal] = useState(false);
 
   async function getCnpj() {
-    if (!cnpj) return alert("Invalid CNPJ");
+    if (!cnpj) return toast.error("CNPJ Inválido");
     try {
-      let formatedCnpj = cnpj.replace(/[^0-9]/g,"");
-      const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`);
-      
+      let formatedCnpj = cnpj.replace(/[^0-9]/g, "");
+      const res = await fetch(
+        `https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`
+      );
+
       if (!res.ok) throw new Error("Failed to fetch data");
-      
+
       const data = await res.json();
       setNome(data.nome_fantasia);
       setRazaoSocial(data.razao_social);
@@ -46,12 +49,17 @@ export default function Home() {
       setUf(data.uf);
       setTelefone(data.ddd_telefone_1);
       setEmail(data.email);
-      setCheckedCnpj(data.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"));
+      setCheckedCnpj(
+        data.cnpj.replace(
+          /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+          "$1.$2.$3/$4-$5"
+        )
+      );
       setCnpj("");
 
-      return 
+      return toast.success("CNPJ Válido");
     } catch (error) {
-      return alert("Invalid CNPJ")
+      return toast.error("Algo de errado aconteceu");
     }
   }
 
@@ -78,6 +86,7 @@ export default function Home() {
 
   return (
     <div className="wrapper">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="checkContainer">
         <h1>Consulta CNPJ</h1>
         <div className="formGroup">
