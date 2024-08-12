@@ -26,6 +26,7 @@ export default function Home() {
   async function getCnpj() {
     if (!cnpj) return toast.error("CNPJ Inválido");
     try {
+      cleanState();
       let formatedCnpj = cnpj.replace(/[^0-9]/g, "");
       const res = await fetch(
         `https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`
@@ -62,6 +63,25 @@ export default function Home() {
       return toast.error("Algo de errado aconteceu");
     }
   }
+
+  const cleanState = () => {
+    setNome("");
+    setRazaoSocial("");
+    setDataAbertura("");
+    setSituacao("");
+    setAtividadePrincipal("");
+    setTipoLogradouro("");
+    setLogradouro("");
+    setNumero("");
+    setComplemento("");
+    setBairro("");
+    setCep("");
+    setMunicipio("");
+    setUf("");
+    setTelefone("");
+    setEmail("");
+    setCheckedCnpj("");
+  };
 
   const sendInfo = () => {
     let newInfo = {
