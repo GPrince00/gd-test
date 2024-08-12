@@ -5,28 +5,15 @@ import "./page.css";
 
 export default function Home() {
   const [cnpj, setCnpj] = useState("");
+  const [info, setInfo] = useState({});
+  const [modalInfo, setModalInfo] = useState({});
   const [checkedCnpj, setCheckedCnpj] = useState("");
-  const [nome, setNome] = useState("");
-  const [razaoSocial, setRazaoSocial] = useState("");
-  const [dataAbertura, setDataAbertura] = useState("");
-  const [situacao, setSituacao] = useState("");
-  const [atividadePrincipal, setAtividadePrincipal] = useState("");
-  const [tipoLogradouro, setTipoLogradouro] = useState("");
-  const [logradouro, setLogradouro] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
-  const [bairro, setBairro] = useState("");
-  const [cep, setCep] = useState("");
-  const [municipio, setMunicipio] = useState("");
-  const [uf, setUf] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [email, setEmail] = useState("");
-  const [modalOpen, setModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   async function getCnpj() {
     if (!cnpj) return toast.error("CNPJ Inválido");
     try {
-      cleanState();
+      setInfo({});
       let formatedCnpj = cnpj.replace(/[^0-9]/g, "");
       const res = await fetch(
         `https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`
@@ -35,21 +22,23 @@ export default function Home() {
       if (!res.ok) throw new Error("Failed to fetch data");
 
       const data = await res.json();
-      setNome(data.nome_fantasia);
-      setRazaoSocial(data.razao_social);
-      setDataAbertura(data.data_inicio_atividade);
-      setSituacao(data.situacao_cadastral);
-      setAtividadePrincipal(data.cnae_fiscal_descricao);
-      setTipoLogradouro(data.descricao_tipo_de_logradouro);
-      setLogradouro(data.logradouro);
-      setNumero(data.numero);
-      setComplemento(data.complemento);
-      setBairro(data.bairro);
-      setCep(data.cep);
-      setMunicipio(data.municipio);
-      setUf(data.uf);
-      setTelefone(data.ddd_telefone_1);
-      setEmail(data.email);
+      setInfo({
+        nome: data.nome_fantasia,
+        razaoSocial: data.razao_social,
+        dataAbertura: data.data_inicio_atividade,
+        situacao: data.situacao_cadastral,
+        atividadePrincipal: data.cnae_fiscal_descricao,
+        tipoLogradouro: data.descricao_tipo_de_logradouro,
+        logradouro: data.logradouro,
+        numero: data.numero,
+        complemento: data.complemento,
+        bairro: data.bairro,
+        cep: data.cep,
+        municipio: data.municipio,
+        uf: data.uf,
+        telefone: data.ddd_telefone_1,
+        email: data.email,
+      });
       setCheckedCnpj(
         data.cnpj.replace(
           /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
@@ -64,47 +53,26 @@ export default function Home() {
     }
   }
 
-  const cleanState = () => {
-    setNome("");
-    setRazaoSocial("");
-    setDataAbertura("");
-    setSituacao("");
-    setAtividadePrincipal("");
-    setTipoLogradouro("");
-    setLogradouro("");
-    setNumero("");
-    setComplemento("");
-    setBairro("");
-    setCep("");
-    setMunicipio("");
-    setUf("");
-    setTelefone("");
-    setEmail("");
-    setCheckedCnpj("");
+  const openModal = () => {
+    setModalInfo(info);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalInfo({});
+    setModalOpen(false);
+  };
+
+  const saveInfo = () => {
+    setInfo(modalInfo);
+    setModalOpen(false);
   };
 
   const sendInfo = () => {
-    let newInfo = {
-      nome,
-      razaoSocial,
-      dataAbertura,
-      situacao,
-      atividadePrincipal,
-      tipoLogradouro,
-      logradouro,
-      numero,
-      complemento,
-      bairro,
-      cep,
-      municipio,
-      uf,
-      telefone,
-      email,
-    };
-
     toast.success("Informações atualizadas com sucesso!");
-    cleanState();
-    console.log(newInfo);
+    setInfo({});
+    setCheckedCnpj("");
+    console.log(info);
   };
 
   return (
@@ -114,7 +82,7 @@ export default function Home() {
         <h1>Consulta CNPJ</h1>
         <div className="formGroup">
           <input
-            value={cnpj}
+            value={modalInfo.cnpj}
             className="formInput"
             onChange={(e) => setCnpj(e.target.value)}
           />
@@ -123,7 +91,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      {razaoSocial ? (
+      {info ? (
         <div className="resultsContainer">
           <div className="viewItem">
             <h3 className="cnpjChecked">CNPJ: {checkedCnpj}</h3>
@@ -132,37 +100,37 @@ export default function Home() {
           <div className="viewContainer">
             <div className="viewItem">
               <p>
-                <strong>Nome:</strong> {nome}
+                <strong>Nome:</strong> {info.nome}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Razão social:</strong> {razaoSocial}
+                <strong>Razão social:</strong> {info.razaoSocial}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Data de abertura:</strong> {dataAbertura}
+                <strong>Data de abertura:</strong> {info.dataAbertura}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Situação:</strong> {situacao}
+                <strong>Situação:</strong> {info.situacao}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Atividade principal:</strong> {atividadePrincipal}
+                <strong>Atividade principal:</strong> {info.atividadePrincipal}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Telefone:</strong> {telefone}
+                <strong>Telefone:</strong> {info.telefone}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Email:</strong> {email}
+                <strong>Email:</strong> {info.email}
               </p>
             </div>
           </div>
@@ -170,47 +138,47 @@ export default function Home() {
           <div className="viewContainer">
             <div className="viewItem">
               <p>
-                <strong>Tipo logradouro:</strong> {tipoLogradouro}
+                <strong>Tipo logradouro:</strong> {info.tipoLogradouro}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Logradouro:</strong> {logradouro}
+                <strong>Logradouro:</strong> {info.logradouro}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Numero:</strong> {numero}
+                <strong>Numero:</strong> {info.numero}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Complemento:</strong> {complemento}
+                <strong>Complemento:</strong> {info.complemento}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Bairro:</strong> {bairro}
+                <strong>Bairro:</strong> {info.bairro}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>CEP:</strong> {cep}
+                <strong>CEP:</strong> {info.cep}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>Município:</strong> {municipio}
+                <strong>Município:</strong> {info.municipio}
               </p>
             </div>
             <div className="viewItem">
               <p>
-                <strong>UF:</strong> {uf}
+                <strong>UF:</strong> {info.uf}
               </p>
             </div>
           </div>
           <div className="buttonContainer">
-            <button onClick={() => setModal(true)}>Editar</button>
+            <button onClick={() => openModal()}>Editar</button>
             <button onClick={() => sendInfo()}>Confirmar</button>
           </div>
         </div>
@@ -226,58 +194,75 @@ export default function Home() {
             <div className="formGroup">
               <label className="formLabel">Nome</label>
               <input
-                value={nome}
+                value={modalInfo.nome}
                 className="formInput"
                 type="text"
-                onChange={(e) => setNome(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, nome: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Razão Social</label>
               <input
-                value={razaoSocial}
+                value={modalInfo.razaoSocial}
                 className="formInput"
-                onChange={(e) => setRazaoSocial(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, razaoSocial: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Data de Abertura</label>
               <input
-                value={dataAbertura}
+                value={modalInfo.dataAbertura}
                 className="formInput"
-                onChange={(e) => setDataAbertura(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, dataAbertura: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Situação</label>
               <input
-                value={situacao}
+                value={modalInfo.situacao}
                 className="formInput"
-                onChange={(e) => setSituacao(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, situacao: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Atividade Principal</label>
               <input
-                value={atividadePrincipal}
+                value={modalInfo.atividadePrincipal}
                 className="formInput"
-                onChange={(e) => setAtividadePrincipal(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({
+                    ...modalInfo,
+                    atividadePrincipal: e.target.value,
+                  })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Telefone</label>
               <input
-                value={telefone}
+                value={modalInfo.telefone}
                 className="formInput"
-                onChange={(e) => setTelefone(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, telefone: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Email</label>
               <input
-                value={email}
+                value={modalInfo.email}
                 className="formInput"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, email: e.target.value })
+                }
               />
             </div>
           </div>
@@ -286,69 +271,88 @@ export default function Home() {
             <div className="formGroup">
               <label className="formLabel">Tipo</label>
               <input
-                value={tipoLogradouro}
+                value={modalInfo.tipoLogradouro}
                 className="formInput"
-                onChange={(e) => setTipoLogradouro(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, tipoLogradouro: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Logradouro</label>
               <input
-                value={logradouro}
+                value={modalInfo.logradouro}
                 className="formInput"
-                onChange={(e) => setLogradouro(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, logradouro: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Nº</label>
               <input
-                value={numero}
+                value={modalInfo.numero}
                 className="formInput"
-                onChange={(e) => setNumero(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, numero: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Complemento</label>
               <input
-                value={complemento}
+                value={modalInfo.complemento}
                 className="formInput"
-                onChange={(e) => setComplemento(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, complemento: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Bairro</label>
               <input
-                value={bairro}
+                value={modalInfo.bairro}
                 className="formInput"
-                onChange={(e) => setBairro(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, bairro: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">CEP</label>
               <input
-                value={cep}
+                value={modalInfo.cep}
                 className="formInput"
-                onChange={(e) => setCep(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, cep: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">Cidade</label>
               <input
-                value={municipio}
+                value={modalInfo.municipio}
                 className="formInput"
-                onChange={(e) => setMunicipio(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, municipio: e.target.value })
+                }
               />
             </div>
             <div className="formGroup">
               <label className="formLabel">UF</label>
               <input
-                value={uf}
+                value={modalInfo.uf}
                 className="formInput"
-                onChange={(e) => setUf(e.target.value)}
+                onChange={(e) =>
+                  setModalInfo({ ...modalInfo, uf: e.target.value })
+                }
               />
             </div>
           </div>
-          <button className="saveButton" onClick={() => setModal(false)}>
+          <button className="cancelButton" onClick={() => closeModal()}>
+            Cancelar
+          </button>
+          <button className="saveButton" onClick={() => saveInfo()}>
             Salvar
           </button>
         </div>
