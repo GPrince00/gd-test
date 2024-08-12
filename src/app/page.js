@@ -68,9 +68,14 @@ export default function Home() {
     }
   }
 
-  const openModal = () => {
+  const openModalGeneral = () => {
     setModalInfo(info);
-    setModalOpen(true);
+    setModalOpen("general");
+  };
+
+  const openModalAddress = () => {
+    setModalInfo(info);
+    setModalOpen("address");
   };
 
   const closeModal = () => {
@@ -117,7 +122,7 @@ export default function Home() {
           </div>
           <div className="sessionTitle">
             <h2>Informações Gerais</h2>
-            <button className="editButton" onClick={() => openModal()}>
+            <button className="editButton" onClick={() => openModalGeneral()}>
               Editar
             </button>
           </div>
@@ -160,7 +165,7 @@ export default function Home() {
           </div>
           <div className="sessionTitle">
             <h2 className="title">Endereço</h2>
-            <button className="editButton" onClick={() => openModal()}>
+            <button className="editButton" onClick={() => openModalAddress()}>
               Editar
             </button>
           </div>
@@ -242,9 +247,8 @@ export default function Home() {
         <></>
       )}
       {modalOpen && <div className="blockContainer" />}
-      {modalOpen && (
+      {modalOpen === "general" && (
         <div className="modalContainer">
-          <h1>Edição</h1>
           <h2>Informações Gerais</h2>
           <div className="modalInputsContainer">
             <div className="formGroup">
@@ -322,6 +326,16 @@ export default function Home() {
               />
             </div>
           </div>
+          <div className="modalButtonContainer">
+            <button className="cancelButton" onClick={() => closeModal()}>
+              Cancelar
+            </button>
+            <button onClick={() => saveInfo()}>Salvar</button>
+          </div>
+        </div>
+      )}
+      {modalOpen === "address" && (
+        <div className="modalContainer">
           <h2>Endereço</h2>
           <div className="modalInputsContainer">
             <div className="formGroup">

@@ -88,7 +88,7 @@ button:disabled {
   background-color: black;
   opacity: 0.7;
   width: 100%;
-  height: 120%;
+  height: 100%;
   position: absolute;
   z-index: 1;
   right: 0;
@@ -152,9 +152,7 @@ button:disabled {
   .wrapper {
     padding: 1em 2em;
   }
-  .blockContainer {
-    height: 115%;
-  }
+
   .viewContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -162,9 +160,7 @@ button:disabled {
 }
 
 @media screen and (min-width: 1200px) {
-  .blockContainer {
-    height: 115%;
-  }
+
   .modalContainer {
     padding: 2rem 1rem;
   }
