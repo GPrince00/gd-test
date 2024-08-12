@@ -4,6 +4,7 @@ import "./page.css";
 
 export default function Home() {
   const [cnpj, setCnpj] = useState("");
+  const [checkedCnpj, setCheckedCnpj] = useState("");
   const [nome, setNome] = useState("");
   const [razaoSocial, setRazaoSocial] = useState("");
   const [dataAbertura, setDataAbertura] = useState("");
@@ -22,31 +23,36 @@ export default function Home() {
   const [modalOpen, setModal] = useState(false);
 
   async function getCnpj() {
-    if (!cnpj) return console.log("invalid CNPJ");
-    const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
+    if (!cnpj) return alert("Invalid CNPJ");
+    try {
+      let formatedCnpj = cnpj.replace(/[^0-9]/g,"");
+      const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`);
+      
+      if (!res.ok) throw new Error("Failed to fetch data");
+      
+      const data = await res.json();
+      setNome(data.nome_fantasia);
+      setRazaoSocial(data.razao_social);
+      setDataAbertura(data.data_inicio_atividade);
+      setSituacao(data.situacao_cadastral);
+      setAtividadePrincipal(data.cnae_fiscal_descricao);
+      setTipoLogradouro(data.descricao_tipo_de_logradouro);
+      setLogradouro(data.logradouro);
+      setNumero(data.numero);
+      setComplemento(data.complemento);
+      setBairro(data.bairro);
+      setCep(data.cep);
+      setMunicipio(data.municipio);
+      setUf(data.uf);
+      setTelefone(data.ddd_telefone_1);
+      setEmail(data.email);
+      setCheckedCnpj(data.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"));
+      setCnpj("");
 
-    if (!res.ok) throw new Error("Failed to fetch data");
-
-    const data = await res.json();
-    setNome(data.nome_fantasia);
-    setRazaoSocial(data.razao_social);
-    setDataAbertura(data.data_inicio_atividade);
-    setSituacao(data.situacao_cadastral);
-    setAtividadePrincipal(data.cnae_fiscal_descricao);
-    setTipoLogradouro(data.descricao_tipo_de_logradouro);
-    setLogradouro(data.logradouro);
-    setNumero(data.numero);
-    setComplemento(data.complemento);
-    setBairro(data.bairro);
-    setCep(data.cep);
-    setMunicipio(data.municipio);
-    setUf(data.uf);
-    setTelefone(data.ddd_telefone_1);
-    setEmail(data.email);
-
-    console.log(data);
-
-    return;
+      return 
+    } catch (error) {
+      return alert("Invalid CNPJ")
+    }
   }
 
   const sendInfo = () => {
@@ -88,13 +94,13 @@ export default function Home() {
       {razaoSocial ? (
         <div className="resultsContainer">
           <div className="viewItem">
-            <h3 className="cnpjChecked">CNPJ: {cnpj}</h3>
+            <h3 className="cnpjChecked">CNPJ: {checkedCnpj}</h3>
           </div>
           <h2 className="title">Informações Gerais</h2>
           <div className="viewContainer">
             <div className="viewItem">
               <p>
-                <strong>Nome:</strong> {nome ? nome : "-"}
+                <strong>Nome:</strong> {nome}
               </p>
             </div>
             <div className="viewItem">
@@ -243,7 +249,6 @@ export default function Home() {
               />
             </div>
           </div>
-
           <h2 className="modalSectionTitle">Endereço</h2>
           <div className="modalInputsContainer">
             <div className="formGroup">
@@ -316,8 +321,6 @@ export default function Home() {
           </button>
         </div>
       )}
-      {/* <button onClick={() => setModal(true)}>Consulta</button> */}
-      {/* <button onClick={() => sendInfo()}>Consulta</button> */}
     </div>
   );
 }
