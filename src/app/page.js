@@ -5,7 +5,7 @@ import "./page.css";
 
 export default function Home() {
   const [cnpj, setCnpj] = useState("");
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState();
   const [modalInfo, setModalInfo] = useState({});
   const [checkedCnpj, setCheckedCnpj] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,7 +13,7 @@ export default function Home() {
   async function getCnpj() {
     if (!cnpj) return toast.error("CNPJ Inválido");
     try {
-      setInfo({});
+      setInfo();
       let formatedCnpj = cnpj.replace(/[^0-9]/g, "");
       const res = await fetch(
         `https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`
@@ -59,7 +59,7 @@ export default function Home() {
   };
 
   const closeModal = () => {
-    setModalInfo({});
+    setModalInfo();
     setModalOpen(false);
   };
 
@@ -70,7 +70,7 @@ export default function Home() {
 
   const sendInfo = () => {
     toast.success("Informações atualizadas com sucesso!");
-    setInfo({});
+    setInfo();
     setCheckedCnpj("");
     console.log(info);
   };
@@ -82,7 +82,7 @@ export default function Home() {
         <h1>Consulta CNPJ</h1>
         <div className="formGroup">
           <input
-            value={modalInfo.cnpj}
+            value={cnpj}
             className="formInput"
             onChange={(e) => setCnpj(e.target.value)}
           />
