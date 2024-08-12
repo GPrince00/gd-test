@@ -61,7 +61,7 @@ button {
   font-size: 1.2rem;
   padding: 0.5rem;
   border: 1px #fff solid;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: 500;
 }
 
@@ -91,6 +91,19 @@ button {
   z-index: 2;
 }
 
+.modalButtonContainer {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.cancelButton {
+  background-color: crimson;
+}
+
+.editButton,
+.cancelButton {
+  margin-right: 1rem;
+}
 .formGroup {
   display: flex;
   flex-direction: column;
@@ -110,7 +123,6 @@ button {
   color: #fff;
 }
 
-.saveButton,
 .consultButton {
   margin-top: 1rem;
 }
@@ -140,7 +152,8 @@ button {
     grid-template-columns: 1fr 1fr;
   }
 
-  .formInput, .formLabel {
+  .formInput,
+  .formLabel {
     margin: 0 0.5rem;
   }
   .modalSectionTitle {

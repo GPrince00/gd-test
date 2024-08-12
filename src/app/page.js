@@ -178,7 +178,7 @@ export default function Home() {
             </div>
           </div>
           <div className="buttonContainer">
-            <button onClick={() => openModal()}>Editar</button>
+            <button className="editButton" onClick={() => openModal()}>Editar</button>
             <button onClick={() => sendInfo()}>Confirmar</button>
           </div>
         </div>
@@ -349,12 +349,14 @@ export default function Home() {
               />
             </div>
           </div>
-          <button className="cancelButton" onClick={() => closeModal()}>
-            Cancelar
-          </button>
-          <button className="saveButton" onClick={() => saveInfo()}>
-            Salvar
-          </button>
+          <div className="modalButtonContainer">
+            <button className="cancelButton" onClick={() => closeModal()}>
+              Cancelar
+            </button>
+            <button onClick={() => saveInfo()}>
+              Salvar
+            </button>
+          </div>
         </div>
       )}
     </div>
