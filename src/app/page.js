@@ -11,10 +11,11 @@ export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
 
   async function getCnpj() {
-    if (!cnpj) return toast.error("CNPJ Inválido");
+    let formatedCnpj = cnpj.replace(/[^0-9]/g, "");
+    if (formatedCnpj.length !== 14) return toast.error("CNPJ Inválido");
+
     try {
       setInfo();
-      let formatedCnpj = cnpj.replace(/[^0-9]/g, "");
       const res = await fetch(
         `https://brasilapi.com.br/api/cnpj/v1/${formatedCnpj}`
       );
@@ -86,7 +87,7 @@ export default function Home() {
             className="formInput"
             onChange={(e) => setCnpj(e.target.value)}
           />
-          <button className="consultButton" onClick={() => getCnpj()}>
+          <button className="consultButton" disabled={!cnpj} onClick={() => getCnpj()}>
             Consulta
           </button>
         </div>
@@ -178,7 +179,9 @@ export default function Home() {
             </div>
           </div>
           <div className="buttonContainer">
-            <button className="editButton" onClick={() => openModal()}>Editar</button>
+            <button className="editButton" onClick={() => openModal()}>
+              Editar
+            </button>
             <button onClick={() => sendInfo()}>Confirmar</button>
           </div>
         </div>
@@ -188,8 +191,8 @@ export default function Home() {
       {modalOpen && <div className="blockContainer" />}
       {modalOpen && (
         <div className="modalContainer">
-          <h1 className="modalSectionTitle">Edição</h1>
-          <h2 className="modalSectionTitle">Informações Gerais</h2>
+          <h1>Edição</h1>
+          <h2>Informações Gerais</h2>
           <div className="modalInputsContainer">
             <div className="formGroup">
               <label className="formLabel">Nome</label>
@@ -266,7 +269,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <h2 className="modalSectionTitle">Endereço</h2>
+          <h2>Endereço</h2>
           <div className="modalInputsContainer">
             <div className="formGroup">
               <label className="formLabel">Tipo</label>
@@ -353,9 +356,7 @@ export default function Home() {
             <button className="cancelButton" onClick={() => closeModal()}>
               Cancelar
             </button>
-            <button onClick={() => saveInfo()}>
-              Salvar
-            </button>
+            <button onClick={() => saveInfo()}>Salvar</button>
           </div>
         </div>
       )}
