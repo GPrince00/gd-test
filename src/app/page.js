@@ -80,13 +80,13 @@ export default function Home() {
             className="formInput"
             onChange={(e) => setCnpj(e.target.value)}
           />
-          <button onClick={() => getCnpj()}>Consulta</button>
+          <button className="consultButton" onClick={() => getCnpj()}>Consulta</button>
         </div>
       </div>
       {razaoSocial ? (
-        <>
+        <div className="resultsContainer">
           <div className="viewItem">
-            <h3>CNPJ: {cnpj}</h3>
+            <h3 className="cnpjChecked">CNPJ: {cnpj}</h3>
           </div>
           <h2 className="title">Informações Gerais</h2>
           <div className="viewContainer">
@@ -173,10 +173,11 @@ export default function Home() {
             <button onClick={() => setModal(true)}>Editar</button>
             <button>Confirmar</button>
           </div>
-        </>
+        </div>
       ) : (
         <></>
       )}
+      {modalOpen && <div className="blockContainer"/>}
       {modalOpen && (
         <div className="modalContainer">
           <h1>Edição</h1>
@@ -199,7 +200,7 @@ export default function Home() {
                 onChange={(e) => setRazaoSocial(e.target.value)}
               />
             </div>
-            <div className="formGroup openingDate">
+            <div className="formGroup">
               <label className="formLabel">Data de Abertura</label>
               <input
                 value={dataAbertura}
@@ -207,7 +208,7 @@ export default function Home() {
                 onChange={(e) => setDataAbertura(e.target.value)}
               />
             </div>
-            <div className="formGroup situation">
+            <div className="formGroup">
               <label className="formLabel">Situação</label>
               <input
                 value={situacao}
@@ -225,7 +226,7 @@ export default function Home() {
             </div>
           </div>
           <div className="contactInfo">
-            <div className="formGroup phone">
+            <div className="formGroup">
               <label className="formLabel">Telefone</label>
               <input
                 value={telefone}
@@ -233,7 +234,7 @@ export default function Home() {
                 onChange={(e) => setTelefone(e.target.value)}
               />
             </div>
-            <div className="formGroup email">
+            <div className="formGroup">
               <label className="formLabel">Email</label>
               <input
                 value={email}
@@ -244,7 +245,7 @@ export default function Home() {
           </div>
           <h2 className="">Endereço</h2>
           <div className="addressContainer">
-            <div className="formGroup type">
+            <div className="formGroup">
               <label className="formLabel">Tipo</label>
               <input
                 value={tipoLogradouro}
@@ -252,7 +253,7 @@ export default function Home() {
                 onChange={(e) => setTipoLogradouro(e.target.value)}
               />
             </div>
-            <div className="formGroup street">
+            <div className="formGroup">
               <label className="formLabel">Logradouro</label>
               <input
                 value={logradouro}
@@ -284,7 +285,7 @@ export default function Home() {
                 onChange={(e) => setBairro(e.target.value)}
               />
             </div>
-            <div className="formGroup cep">
+            <div className="formGroup">
               <label className="formLabel">CEP</label>
               <input
                 value={cep}
@@ -300,7 +301,7 @@ export default function Home() {
                 onChange={(e) => setMunicipio(e.target.value)}
               />
             </div>
-            <div className="formGroup uf">
+            <div className="formGroup">
               <label className="formLabel">UF</label>
               <input
                 value={uf}
@@ -309,7 +310,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <button onClick={() => setModal(false)}>Salvar</button>
+          <button className="saveButton" onClick={() => setModal(false)}>Salvar</button>
         </div>
       )}
       {/* <button onClick={() => setModal(true)}>Consulta</button> */}

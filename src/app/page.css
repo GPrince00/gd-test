@@ -1,20 +1,27 @@
 .wrapper {
-  margin: auto;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1rem 0 1rem;
+  height: 100%;
 }
 
 .checkContainer {
-    background-color: #084f43;
-    padding: 1rem;
-    border-radius: 10px;
+  background-color: #084f43;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.resultsContainer {
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  background-color: #fff;
 }
 
 h1 {
-    color: #fff;
-    font-weight: 400;
-    margin-bottom: 1rem;
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 1rem;
 }
 
 h2 {
@@ -22,6 +29,10 @@ h2 {
   background-color: #084f43;
   color: #fff;
   font-weight: 500;
+}
+
+.cnpjChecked {
+  margin-bottom: 0.5rem;
 }
 
 .viewContainer {
@@ -37,38 +48,50 @@ h2 {
 }
 
 .buttonContainer {
-    display: flex;
+  display: flex;
+  margin: 1rem 0.5rem 0.5rem 0.5rem;
 }
 
 button {
-    width: 100%;
-    background-color: #039661;
-    color: #fff;
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    border: 1px #fff solid;
-    border-radius: 4px;
-    font-weight: 500;
+  width: 100%;
+  background-color: #039661;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border: 1px #fff solid;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .title {
-    padding-left: 1rem;
+  padding-left: 0.5rem;
+}
+
+.blockContainer {
+  background-color: black;
+  opacity: 0.7;
+  width: 100%;
+  height: 120%;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
 }
 
 .modalContainer {
-    position: absolute;
-    width: 90vw;
-    background-color: #084f43;
-    padding: 1rem;
-    align-self: center;
+  position: absolute;
+  width: 90vw;
+  background-color: #084f43;
+  padding: 1rem;
+  align-self: center;
+  border-radius: 8px;
+  z-index: 2;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.5rem;
-  margin-right: 0.5rem;
 }
 
 .formInput {
@@ -81,11 +104,25 @@ button {
 }
 
 .formLabel {
-    color: #fff;
+  color: #fff;
+}
+
+.saveButton,
+.consultButton {
+  margin-top: 1rem;
 }
 
 @media screen and (min-width: 800px) {
-    .container {
-      margin: 1em 2em;
-    }
+  .wrapper {
+    padding: 1em 2em;
   }
+  .blockContainer {
+    height: 115%;
+  }
+  .viewContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: 100px;
+    flex-wrap: wrap;
+  }
+}
