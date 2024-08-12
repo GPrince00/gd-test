@@ -10,12 +10,10 @@
 .checkContainer {
   background-color: #084f43;
   padding: 1rem;
-  border-radius: 10px;
   margin-bottom: 2rem;
 }
 
 .resultsContainer {
-  border-radius: 8px;
   padding: 0.5rem 0;
   background-color: #fff;
 }
@@ -153,6 +151,12 @@ button:disabled {
     padding: 1em 2em;
   }
 
+  .checkContainer {
+    border-radius: 10px;
+  }
+  .resultsContainer {
+    border-radius: 8px;
+  }
   .viewContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -160,17 +164,17 @@ button:disabled {
 }
 
 @media screen and (min-width: 1200px) {
-
   .modalContainer {
     padding: 2rem 1rem;
   }
-  .modalInputsContainer, .partnerContainer {
+  .modalInputsContainer,
+  .partnerContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 1rem;
   }
-  
-  .partnerItem{
+
+  .partnerItem {
     border-radius: 8px;
   }
 }
